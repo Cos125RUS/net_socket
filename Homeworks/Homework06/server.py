@@ -15,9 +15,7 @@ clients = {}
 
 def broadcast(message):
     for client in clients.values():
-        print(client)
-        print(type(client))
-        # client.send(message)
+        client.send(message)
 
 
 def handle(nickname):
