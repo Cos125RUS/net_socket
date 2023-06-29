@@ -56,7 +56,7 @@ def receive():
 
         # Print And Broadcast Nickname
         print(f"Nickname is {nickname}")
-        broadcast(f"{nickname.encode('ascii')} joined!")
+        broadcast(f"{nickname} joined!".encode('ascii'))
         client.send('Connected to server!'.encode('ascii'))
 
         # Start Handling Thread For Client
