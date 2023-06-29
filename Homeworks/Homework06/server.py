@@ -14,7 +14,7 @@ clients = {}
 
 
 def broadcast(message):
-    for client in clients:
+    for client in clients.values():
         client.send(message)
 
 
@@ -32,6 +32,9 @@ def handle(nickname):
 def receive():
     while True:
         client, address = server.accept()
+        print(client)
+        print(address)
+
         print(f"Connected with {str(address)}")
 
         client.send('NICK'.encode('ascii'))
@@ -41,7 +44,7 @@ def receive():
         print(f"Nickname is {nickname}")
         broadcast(f'{nickname.encode("ascii")} joined!')
         client.send('Connected to server!'.encode('ascii'))
-        threading.Thread(target=handle, args=(nickname,)).start()
+        # threading.Thread(target=handle, args=(nickname,)).start()
 
 
 print("Server if listening...")
