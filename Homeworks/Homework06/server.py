@@ -46,22 +46,22 @@ def receive():
     while True:
         # Accept Connection
         client, address = server.accept()
-        print(f"Connected with {address[0]}:{str(address[1])}")
+        print(f"Connected with {str(address)}")
 
         # Request And Store Nickname
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
         nicknames.append(nickname)
         clients.append(client)
-        users[nickname] = client
 
         # Print And Broadcast Nickname
-        print(f"Nickname is {nickname}")
-        broadcast(f"{nickname.encode('ascii')} joined!")
+        print("Nickname is {}".format(nickname))
+        broadcast("{} joined!".format(nickname).encode('ascii'))
         client.send('Connected to server!'.encode('ascii'))
 
         # Start Handling Thread For Client
-        threading.Thread(target=handle, args=(client,)).start()
+        thread = threading.Thread(target=handle, args=(client,))
+        thread.start()
 
 
 print("Server if listening...")
