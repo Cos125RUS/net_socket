@@ -15,7 +15,8 @@ clients = {}
 
 def broadcast(message):
     for client in clients.values():
-        client.send(message)
+        print(client)
+        # client.send(message)
 
 
 def handle(nickname):
@@ -33,7 +34,6 @@ def receive():
     while True:
         client, address = server.accept()
         print(client)
-        print(address)
 
         print(f"Connected with {str(address)}")
 
