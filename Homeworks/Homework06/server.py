@@ -6,10 +6,6 @@ import threading
 host = '45.12.237.90'
 port = 55555
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host, port))
-server.listen()
-
 # Starting Server
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
@@ -18,6 +14,7 @@ server.listen()
 # Lists For Clients and Their Nicknames
 clients = []
 nicknames = []
+users = {}
 
 
 # Sending Messages To All Connected Clients
@@ -39,7 +36,7 @@ def handle(client):
             clients.remove(client)
             client.close()
             nickname = nicknames[index]
-            broadcast('{} left!'.format(nickname).encode('ascii'))
+            broadcast(f'{nickname.encode("ascii")} left!')
             nicknames.remove(nickname)
             break
 
@@ -49,22 +46,22 @@ def receive():
     while True:
         # Accept Connection
         client, address = server.accept()
-        print("Connected with {}".format(str(address)))
+        print(f"Connected with {address[0]}:{str(address[1])}")
 
         # Request And Store Nickname
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
         nicknames.append(nickname)
         clients.append(client)
+        users[nickname] = client
 
         # Print And Broadcast Nickname
-        print("Nickname is {}".format(nickname))
-        broadcast("{} joined!".format(nickname).encode('ascii'))
+        print(f"Nickname is {nickname}")
+        broadcast(f"{nickname.encode('ascii')} joined!")
         client.send('Connected to server!'.encode('ascii'))
 
         # Start Handling Thread For Client
-        thread = threading.Thread(target=handle, args=(client,))
-        thread.start()
+        threading.Thread(target=handle, args=(client,)).start()
 
 
 print("Server if listening...")

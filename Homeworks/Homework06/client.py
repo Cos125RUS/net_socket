@@ -27,7 +27,7 @@ def write():
             message = f'\033[35m{nickname}: \033[36m{input()} \033[0m'
             client.send(message.encode('ascii'))
         except:
-            print('\033[31m Writen error \033[0m')
+            print('\033[31m   Writen error \033[0m')
 
 
 receive_thread = threading.Thread(target=receive).start()
