@@ -60,8 +60,7 @@ def receive():
         client.send('Connected to server!'.encode('ascii'))
 
         # Start Handling Thread For Client
-        thread = threading.Thread(target=handle, args=(client,))
-        thread.start()
+        threading.Thread(target=handle, args=(client,)).start()
 
 
 print("Server if listening...")
