@@ -46,13 +46,14 @@ def receive():
     while True:
         # Accept Connection
         client, address = server.accept()
-        print(f"Connected with {str(address)}")
+        print(f"Connected with {address[0]}:{str(address[1])}")
 
         # Request And Store Nickname
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
         nicknames.append(nickname)
         clients.append(client)
+        users[nickname] = client
 
         # Print And Broadcast Nickname
         print(f"Nickname is {nickname}")
