@@ -10,9 +10,9 @@ client.connect(('45.12.237.90', 55555))
 def receive():
     while True:
         try:
-            message = client.recv(1024).decode('ascii')
+            message = client.recv(1024).decode('utf-8')
             if message == 'NICK':
-                client.send(nickname.encode('ascii'))
+                client.send(nickname.encode('utf-8'))
             else:
                 print(f'\033[34m{message}\033[0m')
         except:
@@ -25,9 +25,9 @@ def write():
     while True:
         try:
             message = f'\033[35m{nickname}: \033[36m{input()} \033[0m'
-            client.send(message.encode('ascii'))
+            client.send(message.encode('utf-8'))
         except:
-            print('\033[31m  Connection close \033[0m')
+            print('\033[31m  Writen error \033[0m')
 
 
 receive_thread = threading.Thread(target=receive).start()
