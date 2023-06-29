@@ -59,6 +59,8 @@ def receive():
         print(f"Nickname is {nickname}")
         broadcast(f"{nickname} joined!".encode('ascii'))
         client.send('Connected to server!'.encode('ascii'))
+        with open('log.txt', 'a') as log:
+            log.write(f'Connected with {address[0]}:{str(address[1])} Nickname is {nickname}')
 
         # Start Handling Thread For Client
         threading.Thread(target=handle, args=(client,)).start()
