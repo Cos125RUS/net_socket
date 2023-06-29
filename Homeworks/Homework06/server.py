@@ -55,8 +55,8 @@ def receive():
         clients.append(client)
 
         # Print And Broadcast Nickname
-        print("Nickname is {}".format(nickname))
-        broadcast("{} joined!".format(nickname).encode('ascii'))
+        print(f"Nickname is {nickname}")
+        broadcast(f"{nickname.encode('ascii')} joined!")
         client.send('Connected to server!'.encode('ascii'))
 
         # Start Handling Thread For Client
