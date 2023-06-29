@@ -20,8 +20,8 @@ users = []
 
 # Sending Messages To All Connected Clients
 def broadcast(message):
-    for client in clients:
-        client.send(message)
+    for user in users:
+        user.client.send(message)
 
 
 # Handling Messages From Clients
