@@ -10,40 +10,61 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
 server.listen()
 
-clients = {}
+# Starting Server
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((host, port))
+server.listen()
+
+# Lists For Clients and Their Nicknames
+clients = []
+nicknames = []
 
 
+# Sending Messages To All Connected Clients
 def broadcast(message):
-    for client in clients.values():
-        client.send(bytes(message))
+    for client in clients:
+        client.send(message)
 
 
-def handle(nickname):
+# Handling Messages From Clients
+def handle(client):
     while True:
         try:
-            message = clients[nickname].recv(1024)
+            # Broadcasting Messages
+            message = client.recv(1024)
             broadcast(message)
         except:
-            clients.pop(nickname)
-            clients[nickname].close()
-            broadcast(f'{nickname.encode("ascii")} left!')
+            # Removing And Closing Clients
+            index = clients.index(client)
+            clients.remove(client)
+            client.close()
+            nickname = nicknames[index]
+            broadcast('{} left!'.format(nickname).encode('ascii'))
+            nicknames.remove(nickname)
+            break
 
 
+# Receiving / Listening Function
 def receive():
     while True:
+        # Accept Connection
         client, address = server.accept()
-        print(client)
+        print("Connected with {}".format(str(address)))
 
-        print(f"Connected with {str(address)}")
-
+        # Request And Store Nickname
         client.send('NICK'.encode('ascii'))
         nickname = client.recv(1024).decode('ascii')
-        clients[nickname] = client
+        nicknames.append(nickname)
+        clients.append(client)
 
-        print(f"Nickname is {nickname}")
-        broadcast(f'{nickname.encode("ascii")} joined!')
+        # Print And Broadcast Nickname
+        print("Nickname is {}".format(nickname))
+        broadcast("{} joined!".format(nickname).encode('ascii'))
         client.send('Connected to server!'.encode('ascii'))
-        # threading.Thread(target=handle, args=(nickname,)).start()
+
+        # Start Handling Thread For Client
+        thread = threading.Thread(target=handle, args=(client,))
+        thread.start()
 
 
 print("Server if listening...")
