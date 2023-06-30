@@ -7,7 +7,7 @@ class Connector:
         self.nickname = ''
         self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.client.connect(('45.12.237.90', 55555))
-        self.receive_thread = threading.Thread(target=self.receive)
+        self.receive_thread = threading.Thread(target=self.receive, daemon=True)
         self.receive_thread.start()
 
     def connect(self, nickname):
@@ -17,18 +17,19 @@ class Connector:
         while True:
             try:
                 message = self.client.recv(1024).decode('utf-8')
-                if message == 'NICK':
-                    self.client.send(self.nickname.encode('utf-8'))
-                else:
-                    # print(f'\033[34m{message}\033[0m')
+                if message != 'NICK':
                     self.ui.view(message)
+                else:
+                    self.client.send(self.nickname.encode('utf-8'))
             except:
-                print("Ошибка соединения")
-                self.client.close()
+                with open('log.txt', 'a') as log:
+                    log.write(f'Ошибка соединения!\n')
+                    self.client.close()
                 break
 
     def write(self, message):
         try:
             self.client.send(f'{self.nickname}: {message}'.encode('utf-8'))
         except:
-            print('\033[31m  Ошибка ввода \033[0m')
+            with open('log.txt', 'a') as log:
+                log.write(f'Ошибка ввода! message: {message}\n')
