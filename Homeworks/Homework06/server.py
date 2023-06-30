@@ -41,7 +41,7 @@ def receive():
 
         log_message = f"Connected with {user.address} Nickname is {user.nickname}"
         print(log_message)
-        with open('log.txt', 'a') as log:
+        with open('logs/log.txt', 'a') as log:
             log.write(f'{log_message}\n')
 
         client.send('Connected to server!'.encode('utf-8'))
