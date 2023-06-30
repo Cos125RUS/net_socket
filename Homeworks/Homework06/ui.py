@@ -1,4 +1,7 @@
+import time
 from tkinter import *
+from tkinter import messagebox
+
 from connector import *
 
 
@@ -16,19 +19,28 @@ class UI:
         self.enter_button = Button(self.window, text='Отправить', width=10, height=1,
                                    font=('Courier', 8), command=self.enter)
         self.enter_button.place(x=540, y=368)
-        self.canvas = Canvas(self.window, height=340, width=600)
+        self.canvas = Canvas(self.window, height=340, width=610)
         self.canvas.place(x=10, y=10)
-        self.chat_field = Frame(self.canvas, relief=RAISED, borderwidth=0)
+        # self.chat_field = Frame(self.canvas, relief=RAISED, borderwidth=0)
         # self.chat_field.pack(fill=NONE, expand=False, side=LEFT, padx=5, pady=5, )
-        self.chat_field.place(x=10, y=20, anchor='w', bordermode='inside')
-
+        # self.chat_field.place(relheight=1, relwidth=1)
+        self.count_line = 1
+        self.scroll = Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
+        self.scroll.place(x=595, relheight=1)
+        self.canvas.config(yscrollcommand=self.scroll.set)
 
     def start(self):
         self.connect.connect('Valerii')
         self.window.mainloop()
 
     def view(self, message):
-        Label(self.chat_field, text=message, borderwidth=0, font=10).pack(side=TOP)
+        Label(self.canvas, text=message, borderwidth=0, font=10).place(x=5,
+                    y=self.count_line*25-15, relx=0.01, rely=0.01)
+        self.count_line += 1
 
     def enter(self):
-        self.connect.write(self.entry_text.get())
+        value = self.entry_text.get()
+        if value != '':
+            self.connect.write(value)
+            time.sleep(0.1)
+            self.entry_text.delete(0, 'end')
