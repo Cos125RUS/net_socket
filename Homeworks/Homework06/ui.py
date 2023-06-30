@@ -17,14 +17,14 @@ class UI:
         self.enter_button.place(x=540, y=368)
         self.chat_field = Frame(self.window, relief=RAISED, borderwidth=0)
         # self.chat_field.pack(fill=NONE, expand=False, side=LEFT, padx=5, pady=5, )
-        self.chat_field.place(x=10, y=20, anchor='w')
+        self.chat_field.place(x=10, y=20, anchor='w', bordermode='inside')
 
     def start(self):
         self.connect.connect('Valerii')
         self.window.mainloop()
 
     def view(self, message):
-        Label(self.chat_field, text=message, borderwidth=0).pack(side=TOP)
+        Label(self.chat_field, text=message, borderwidth=0, font=10).pack(side=TOP)
 
     def enter(self):
         # print(f'{self.entry_text.get()}')

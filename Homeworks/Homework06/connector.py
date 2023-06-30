@@ -29,6 +29,6 @@ class Connector:
 
     def write(self, message):
         try:
-            self.client.send(f'{self.nickname}: {message}\n'.encode('utf-8'))
+            self.client.send(f'{self.nickname}: {message}'.encode('utf-8'))
         except:
             print('\033[31m  Ошибка ввода \033[0m')
