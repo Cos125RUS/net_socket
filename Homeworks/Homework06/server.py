@@ -16,7 +16,7 @@ users = []
 
 def broadcast(message):
     try:
-        if (len(users) > 0):
+        if len(users) > 0:
             for user in users:
                 user.client.send(message)
     except:

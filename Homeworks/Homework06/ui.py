@@ -31,7 +31,7 @@ class UI:
 
     def view(self, message):
         lines = []
-        line_size = 38
+        line_size = 60
         if len(message) > line_size:
             while len(message) > line_size:
                 if message[:line_size].count(' '):
