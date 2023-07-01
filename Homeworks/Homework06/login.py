@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.messagebox import *
 
 class Login:
     def __init__(self):
@@ -17,7 +18,10 @@ class Login:
 
     def enter(self):
         self.login_name = self.login_field.get()
-        self.window.destroy()
+        if self.login_name != '':
+            self.window.destroy()
+        else:
+            showwarning(title="Предупреждение", message="Необходимо ввести логин")
 
     def get_login(self):
         return self.login_name
