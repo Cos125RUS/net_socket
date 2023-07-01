@@ -20,7 +20,7 @@ class UI:
         self.enter_button.place(x=540, y=368)
         self.frame = Frame(self.window, height=340, width=610)
         self.frame.place(x=10, y=10)
-        self.message_field = Listbox(self.frame, font=10)
+        self.message_field = Listbox(self.frame, font=10, selectbackground='grey')
         self.message_field.place(relheight=1, relwidth=1)
         self.scrollbar = Scrollbar(self.message_field)
         self.scrollbar.pack(side=RIGHT, fill=Y)
@@ -34,8 +34,13 @@ class UI:
         line_size = 38
         if len(message) > line_size:
             while len(message) > line_size:
-                lines.append(message[:line_size])
-                message = message[line_size:]
+                if message[:line_size].count(' '):
+                    string = message[:line_size].rsplit(" ", 1)
+                    lines.append(string[0])
+                    message = string[1] + message[line_size:]
+                else:
+                    lines.append(message[:line_size])
+                    message = message[line_size:]
         lines.append(message)
         for line in lines:
             self.message_field.insert(END, f" {line}")
