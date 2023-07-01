@@ -1,15 +1,13 @@
 import time
 from tkinter import *
-from tkinter import messagebox
-
 from connector import *
 
 
 class UI:
-    def __init__(self):
+    def __init__(self, login_name):
+        self.login_name = login_name
         self.connect = Connector(self)
         self.window = Tk()
-        self.window['bg'] = '#fafafa'
         self.window.title('Massager')
         self.window.geometry('640x400')
         self.window.iconbitmap(default='icon.ico')
@@ -22,15 +20,13 @@ class UI:
         self.enter_button.place(x=540, y=368)
         self.frame = Frame(self.window, height=340, width=610)
         self.frame.place(x=10, y=10)
-        """Листбокс"""
         self.message_field = Listbox(self.frame, font=10)
         self.message_field.place(relheight=1, relwidth=1)
         self.scrollbar = Scrollbar(self.message_field)
         self.scrollbar.pack(side=RIGHT, fill=Y)
-        """-------------------------------------------------"""
 
     def start(self):
-        self.connect.connect('Valerii')
+        self.connect.connect(self.login_name)
         self.window.mainloop()
 
     def view(self, message):
@@ -43,9 +39,6 @@ class UI:
         lines.append(message)
         for line in lines:
             self.message_field.insert(END, f" {line}")
-        """Листбокс"""
-        # self.message_field.insert(END, f" {message}")
-        """--------------------------------------"""
 
     def enter(self):
         value = self.entry_text.get()
