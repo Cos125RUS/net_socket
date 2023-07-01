@@ -8,7 +8,7 @@ class UI:
         self.login_name = login_name
         self.connect = Connector(self)
         self.window = Tk()
-        self.window.title('Massager')
+        self.window.title('Messager')
         self.window.geometry('640x400')
         self.window.iconbitmap(default='icon.ico')
         self.window.resizable(width=False, height=False)
