@@ -1,2 +1,7 @@
 pid.txt
 logs/sys_error.txt
+test.py
+log.txt
+.gitignore
+.venv
+.idea

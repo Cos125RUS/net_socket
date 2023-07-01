@@ -16,8 +16,9 @@ users = []
 
 def broadcast(message):
     try:
-        for user in users:
-            user.client.send(message)
+        if (len(users) > 0):
+            for user in users:
+                user.client.send(message)
     except:
         print('Error')
 
@@ -36,19 +37,22 @@ def handle(user):
 def receive():
     while True:
         client, address = server.accept()
-        client.send('NICK'.encode('utf-8'))
-        user = User(f'{client.recv(1024).decode("utf-8")}', client, f'{address[0]}:{str(address[1])}')
+        try:
+            client.send('NICK'.encode('utf-8'))
+            user = User(f'{client.recv(1024).decode("utf-8")}', client, f'{address[0]}:{str(address[1])}')
 
-        log_message = f"Connected with {user.address} Nickname is {user.nickname}"
-        print(log_message)
-        with open('logs/log.txt', 'a') as log:
-            log.write(f'{log_message}\n')
+            log_message = f"Connected with {user.address} Nickname is {user.nickname}"
+            print(log_message)
+            with open('logs/log.txt', 'a') as log:
+                log.write(f'{log_message}\n')
 
-        client.send('Connected to server!'.encode('utf-8'))
-        broadcast(f"{user.nickname} joined!".encode('utf-8'))
-        users.append(user)
+            client.send('Connected to server!'.encode('utf-8'))
+            broadcast(f"{user.nickname} joined!".encode('utf-8'))
+            users.append(user)
 
-        threading.Thread(target=handle, args=(user,)).start()
+            threading.Thread(target=handle, args=(user,)).start()
+        except:
+            print(f"Connection with {address} failed")
 
 
 print("Server if listening...")
