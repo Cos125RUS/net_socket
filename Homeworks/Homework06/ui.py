@@ -19,7 +19,7 @@ class UI:
         self.enter_button = Button(self.window, text='Отправить', width=10, height=1,
                                    font=('Courier', 8), command=self.enter)
         self.enter_button.place(x=540, y=368)
-        self.entry_text.bind("<KeyPress-Control_L>", self.entered)
+        self.entry_text.bind("<KeyPress-Return>", self.entered)
         self.canvas = Canvas(self.window, height=340, width=610)
         self.canvas.place(x=10, y=10)
         """Рабочий вариант"""
