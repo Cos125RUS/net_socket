@@ -39,6 +39,8 @@ class UI:
         lines.append(message)
         for line in lines:
             self.message_field.insert(END, f" {line}")
+            self.message_field.yview(END)
+
 
     def enter(self):
         value = self.entry_text.get()

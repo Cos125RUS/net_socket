@@ -1,6 +1,7 @@
 from ui import *
 from login import Login
 
+
 class App:
     def __init__(self):
         self.chat_window = None
